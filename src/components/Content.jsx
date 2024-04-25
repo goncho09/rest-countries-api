@@ -1,7 +1,12 @@
-import { FaSearch } from "react-icons/fa";
-import CountrysContainer from "./CountriesContainer";
+'use client';
+
+import { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import CountrysContainer from './CountriesContainer';
 
 export default function Content() {
+  const [region, setRegion] = useState('Filter by Region');
+  const [search, setSearch] = useState('');
   return (
     <main className="flex justify-center">
       <section className="flex w-[80%] mt-12 flex-col">
@@ -15,26 +20,30 @@ export default function Content() {
               type="text"
               placeholder="Search for a country..."
               className="ml-4 border-none outline-none text-base text-black w-[95%]"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
           </div>
           <div className="flex items-center">
             <select
+              defaultValue={'filter'}
               className="p-3 bg-white rounded-md shadow-md"
-              defaultValue={"filter"}
+              onChange={(e) => setRegion(e.target.value)}
+              value={region}
             >
-              <option disabled value="filter">
-                Filter by Region
-              </option>
-              <option>Africa</option>
-              <option>America</option>
-              <option>Asia</option>
-              <option>Europe</option>
-              <option>Oceania</option>
+              <option hidden>Filter by Region</option>
+              <option value="Africa">Africa</option>
+              <option value="America">America</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Oceania">Oceania</option>
             </select>
           </div>
         </div>
 
-        <CountrysContainer />
+        <CountrysContainer region={region} search={search} />
       </section>
     </main>
   );
